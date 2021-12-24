@@ -1,21 +1,42 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import GameScreen from './screens/GameScreen';
+import WelcomeScreen from './screens/WelcomeScreen';
 
 export default function App() {
+  const [gameScreenVisible, setGameScreenVisible] = useState(false);
+  const [welcomeScreenVisible, setWelcomeScreenVisible] = useState(true);
+
+  const goToWelcomeScreen = () => {
+    setGameScreenVisible(false);
+    setWelcomeScreenVisible(true);
+  };
+  const goToGameScreen = () => {
+    setWelcomeScreenVisible(false);
+    setGameScreenVisible(true);
+    console.log('going to main screen');
+  };
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.screen}>
+      <View style={styles.screen}>
+        <WelcomeScreen visible={welcomeScreenVisible} startGame={goToGameScreen} />
+        <GameScreen visible={gameScreenVisible} onHomePress={goToWelcomeScreen} />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
+    backgroundColor: '#123A04',
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  safeArea: {
+    //backgroundColor: '#123A04',
+    backgroundColor: '#fff',
   },
 });
