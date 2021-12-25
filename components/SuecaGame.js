@@ -8,6 +8,7 @@ import Colors from "../constants/Colors";
 
 const { width, height } = Dimensions.get('screen');
 const SuecaGame = props => {
+    const language = props.language;
     const [b1IsClicked, setB1IsClicked] = useState(false);
     const [b2IsClicked, setB2IsClicked] = useState(false);
     const [b3IsClicked, setB3IsClicked] = useState(false);
@@ -49,6 +50,7 @@ const SuecaGame = props => {
         setRedTeamScore(red);
         setBlackTeamScore(black);
     }
+
     useEffect(() => {
         if (redTeamScore === 4) {
             setWinner('red');
@@ -60,23 +62,42 @@ const SuecaGame = props => {
             setWinner('black');
         }
         checkTeamScores();
+        if (language === 'ENG') {
+            setRedTeamWinText('WINNER: RED TEAM');
+            setBlackTeamWinText('WINNER: BLACK TEAM');
+        } else {
+            setRedTeamWinText('VENCEDOR: EQUIPA VERMELHA');
+            setBlackTeamWinText('VENCEDOR: EQUIPA PRETA');
+        }
+        let cancelLastRed = props.cancelRed;
+        let cancelLastBlack = props.cancelBlack;
+
+        if (cancelLastBlack === true) {
+            setB8IsClicked(false);
+        }
+        if (cancelLastRed === true) {
+            setB4IsClicked(false);
+        }
     }, [redTeamScore, showWinningTeam, blackTeamScore, checkTeamScores])
+
+    const [redTeamWinText, setRedTeamWinText] = useState(undefined);
 
     if (winner === 'red') {
         blocked = true;
         showWinningTeam = (
             <View style={styles.redWin}>
-                <Text style={styles.redWinText}>Red Team Won</Text>
+                <Text style={styles.redWinText}>{redTeamWinText}</Text>
                 <Text style={styles.gameScoresRed}>{redTeamScore} - {blackTeamScore} </Text>
             </View >
         );
     }
 
+    const [blackTeamWinText, setBlackTeamWinText] = useState(undefined);
     if (winner === 'black') {
         blocked = true;
         showWinningTeam = (
             <View style={styles.blackWin}>
-                <Text style={styles.blackWinText}>Black Team Won</Text>
+                <Text style={styles.blackWinText}>{blackTeamWinText}</Text>
                 <Text style={styles.gameScoresBlack}>{redTeamScore} - {blackTeamScore}</Text>
             </View >
         );
@@ -91,6 +112,9 @@ const SuecaGame = props => {
                 <View style={styles.circle1Btn}>
 
                     <Button title="" onPress={() => {
+                        if (winner === 'red') {
+                            props.onRedWinCancel();
+                        }
                         setB1IsClicked(false)
                         setB2IsClicked(false)
                         setB3IsClicked(false)
@@ -108,6 +132,9 @@ const SuecaGame = props => {
                 <View style={styles.circle2Btn}>
 
                     <Button title="" onPress={() => {
+                        if (winner === 'red') {
+                            props.onRedWinCancel();
+                        }
                         setB2IsClicked(false)
                         setB3IsClicked(false)
                         setB4IsClicked(false)
@@ -124,6 +151,9 @@ const SuecaGame = props => {
                 <View style={styles.circle3Btn}>
 
                     <Button title="" onPress={() => {
+                        if (winner === 'red') {
+                            props.onRedWinCancel();
+                        }
                         setB3IsClicked(false)
                         setB4IsClicked(false)
 
@@ -139,6 +169,9 @@ const SuecaGame = props => {
                 <View style={styles.circle4Btn}>
 
                     <Button title="" onPress={() => {
+                        if (winner === 'red') {
+                            props.onRedWinCancel();
+                        }
                         setB4IsClicked(false)
 
                     }} />
@@ -153,6 +186,9 @@ const SuecaGame = props => {
                 <View style={styles.circle5Btn}>
 
                     <Button title="" onPress={() => {
+                        if (winner === 'black') {
+                            props.onBlackWinCancel();
+                        }
                         setB5IsClicked(false)
                         setB6IsClicked(false)
                         setB7IsClicked(false)
@@ -170,6 +206,9 @@ const SuecaGame = props => {
                 <View style={styles.circle6Btn}>
 
                     <Button title="" onPress={() => {
+                        if (winner === 'black') {
+                            props.onBlackWinCancel();
+                        }
                         setB6IsClicked(false)
                         setB7IsClicked(false)
                         setB8IsClicked(false)
@@ -186,6 +225,9 @@ const SuecaGame = props => {
                 <View style={styles.circle7Btn}>
 
                     <Button title="" onPress={() => {
+                        if (winner === 'black') {
+                            props.onBlackWinCancel();
+                        }
                         setB7IsClicked(false)
                         setB8IsClicked(false)
 
@@ -201,6 +243,9 @@ const SuecaGame = props => {
                 <View style={styles.circle8Btn}>
 
                     <Button title="" onPress={() => {
+                        if (winner === 'black') {
+                            props.onBlackWinCancel();
+                        }
                         setB8IsClicked(false)
                         setBlackTeamScore(blackTeamScore - 1)
                     }} />
@@ -233,6 +278,7 @@ const SuecaGame = props => {
     const onButton4Press = () => {
         if (b3IsClicked) {
             setB4IsClicked(true)
+            props.onRedWin();
         }
         else { return; }
     };
@@ -258,8 +304,7 @@ const SuecaGame = props => {
     const onButton8Press = () => {
         if (b7IsClicked) {
             setB8IsClicked(true)
-
-
+            props.onBlackWin();
         } else { return; }
     };
 
@@ -587,8 +632,8 @@ const styles = StyleSheet.create({
         overflow: "hidden"
     },
     redWin: {
-        width: width / 2,
-        height: width / 8.2,
+        width: width / 1.3,
+        height: height * 0.08,
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
@@ -598,14 +643,14 @@ const styles = StyleSheet.create({
         borderRadius: 30,
     },
     redWinText: {
-        fontSize: 20,
+        fontSize: height * 0.015,
         color: 'red',
         fontWeight: 'bold',
     },
 
     blackWin: {
-        width: width / 2,
-        height: width / 8.2,
+        width: width / 1.3,
+        height: height * 0.08,
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
@@ -615,17 +660,19 @@ const styles = StyleSheet.create({
         borderRadius: 30,
     },
     blackWinText: {
-        fontSize: 20,
+        fontSize: height * 0.015,
         color: 'black',
         fontWeight: 'bold',
     },
     gameScoresRed: {
         fontWeight: 'bold',
         color: 'red',
+        fontSize: height * 0.015,
     },
     gameScoresBlack: {
         fontWeight: 'bold',
         color: 'black',
+        fontSize: height * 0.015,
 
     },
 });

@@ -1,14 +1,15 @@
 {
   "expo": {
     "name": "SUECAPP",
-    "slug": "SUECAPP",
+    "slug": "suecapp",
+    "description": "Suega game marquer",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/mainLogoSeucapp.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#123A04"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,9 +22,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "foregroundImage": "./assets/Logo.png",
+        "backgroundColor": "#123A04"
+      },
+      "package": "noLimit.suecapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

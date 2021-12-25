@@ -8,11 +8,23 @@ import WelcomeScreen from './screens/WelcomeScreen';
 export default function App() {
   const [gameScreenVisible, setGameScreenVisible] = useState(false);
   const [welcomeScreenVisible, setWelcomeScreenVisible] = useState(true);
+  const [language, setLanguage] = useState('ENG');
 
   const goToWelcomeScreen = () => {
     setGameScreenVisible(false);
     setWelcomeScreenVisible(true);
   };
+
+  const onChangeLanguagePress = () => {
+    if (language === 'ENG') {
+      setLanguage('PT')
+    }
+    else {
+      setLanguage('ENG')
+    }
+  }
+
+
   const goToGameScreen = () => {
     setWelcomeScreenVisible(false);
     setGameScreenVisible(true);
@@ -21,8 +33,8 @@ export default function App() {
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.screen}>
-        <WelcomeScreen visible={welcomeScreenVisible} startGame={goToGameScreen} />
-        <GameScreen visible={gameScreenVisible} onHomePress={goToWelcomeScreen} />
+        <WelcomeScreen visible={welcomeScreenVisible} startGame={goToGameScreen} language={language} onLanguagePress={onChangeLanguagePress} />
+        <GameScreen visible={gameScreenVisible} onHomePress={goToWelcomeScreen} language={language} />
       </View>
     </SafeAreaView>
   );

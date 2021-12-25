@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, Image } from "react-native";
 const MainLogo = props => {
     return (
         <View style={styles.mainLogo}>
-            <Image source={require('../assets/mainLogoSeucapp.png')} />
+            <Image source={require('../assets/MainLogo.png')} />
         </View>
     );
 };
